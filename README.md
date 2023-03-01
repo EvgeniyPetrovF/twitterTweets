@@ -6,7 +6,7 @@ Before launch one of apps you have to instal dependencies with
 
 and install pod
 
-`cd ios && pod install && cd ..`
+`yarn pods`
 
 After that you can launch the apps.
 
