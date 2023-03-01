@@ -6,4 +6,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  username: {
+    fontSize: 32,
+    marginBottom: 15,
+  },
 });
