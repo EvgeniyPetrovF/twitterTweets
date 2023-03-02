@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {colors, dimensions, text} from '../../constants';
 
 export const styles = StyleSheet.create({
   centeredView: {
@@ -6,10 +7,10 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    gap: 10,
+    gap: dimensions.offset.small,
   },
   text: {
-    color: 'white',
-    fontSize: 20,
+    color: colors.white,
+    fontSize: text.size.middle,
   },
 });

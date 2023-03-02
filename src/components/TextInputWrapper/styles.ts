@@ -1,18 +1,24 @@
 import {StyleSheet} from 'react-native';
+import {colors, dimensions, text} from '../../constants';
 
 export const styles = StyleSheet.create({
   container: {
-    width: '80%',
-    marginBottom: 15,
+    width: '100%',
+    marginBottom: dimensions.offset.normal,
   },
-  label: {},
   input: {
-    paddingHorizontal: 10,
-    borderWidth: 1,
-    borderRadius: 10,
+    paddingHorizontal: dimensions.offset.small,
     height: 50,
+    fontSize: text.size.middle,
+  },
+  inputContainer: {
+    borderWidth: 1,
+    borderRadius: dimensions.borderRadius.default,
+    marginBottom: dimensions.offset.large,
   },
   errorText: {
-    color: 'red',
+    color: colors.error,
+    position: 'absolute',
+    bottom: -10,
   },
 });

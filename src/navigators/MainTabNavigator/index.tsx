@@ -6,7 +6,7 @@ import HomeStackNavigator from '../HomeStackNavigator';
 const Tab = createBottomTabNavigator();
 
 const options = {
-  homeStackNavigator: {headerTitle: 'Home', tabBarLabel: 'Home'},
+  homeStackNavigator: {headerShown: false, tabBarLabel: 'Home'},
 };
 
 const MainTabNavigator = () => {

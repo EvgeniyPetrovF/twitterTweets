@@ -1,12 +1,17 @@
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React, {FC} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import TextWrapper from '../../../../components/TextWrapper';
+import {HomeStackParamList} from '../../../../models/navigation';
+import Tweet from '../../components/Tweet';
 import {styles} from './styles';
 
-const DetailScreen: FC = () => {
+type Props = NativeStackScreenProps<HomeStackParamList, 'Details'>;
+
+const DetailScreen: FC<Props> = ({route}) => {
+  const {item, userName} = route.params;
   return (
     <SafeAreaView style={styles.container}>
-      <TextWrapper>Details!</TextWrapper>
+      <Tweet authorNickname={userName} {...item} />
     </SafeAreaView>
   );
 };
