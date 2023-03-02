@@ -9,7 +9,7 @@ const SettingsScreen: FC = () => {
   const [username, setUsername] = useMMKVString('nickname');
 
   const handleLogout = () => {
-    setUsername(undefined);
+    setUsername('');
   };
 
   return (

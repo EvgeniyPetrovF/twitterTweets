@@ -6,13 +6,16 @@ import {styles} from './styles';
 
 interface LoaderProps {
   label?: string;
+  color?: string;
 }
 
-const Loader = ({label}: LoaderProps) => {
+const Loader = ({label, color}: LoaderProps) => {
   return (
     <View style={styles.centeredView}>
-      <ActivityIndicator color={'white'} />
-      <TextWrapper style={styles.text}>{label || 'Loading'}...</TextWrapper>
+      <ActivityIndicator color={color} />
+      <TextWrapper style={[styles.text, {color}]}>
+        {label || 'Loading'}...
+      </TextWrapper>
     </View>
   );
 };

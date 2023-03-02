@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   TouchableOpacityProps,
 } from 'react-native';
+import {colors} from '../../constants';
 import Loader from '../Loader';
 import TextWrapper from '../TextWrapper';
 import {styles} from './styles';
@@ -32,7 +33,7 @@ const CustomButton = ({
       disabled={disabled}
       {...props}>
       {pending ? (
-        <Loader />
+        <Loader color={colors.white} />
       ) : (
         label && (
           <TextWrapper style={[styles.buttonText, textStyle]}>
