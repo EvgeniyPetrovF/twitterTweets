@@ -9,6 +9,9 @@ import Loader from '../../../../components/Loader';
 import TextWrapper from '../../../../components/TextWrapper';
 import TweetsAPI from '../../../../services/API/Tweets';
 import {HomeStackParamList} from '../../../../models/navigation';
+import {StorageKeys} from '../../../../models/storage';
+import Animated, {withTiming} from 'react-native-reanimated';
+import useAnimatedOpacity from '../../../../common/hooks/useAnimatedOpacity';
 
 const ListEmptyComponent: FC = () => {
   return <TextWrapper>No items</TextWrapper>;
@@ -24,28 +27,49 @@ const ItemSeparatorComponent: FC = () => {
 
 type Props = NativeStackScreenProps<HomeStackParamList, 'Home'>;
 
+const animationDuration = 300;
+
 const HomeScreen: FC<Props> = ({navigation}) => {
-  const [userName] = useMMKVString('nickname');
+  const [userName] = useMMKVString(StorageKeys.userName);
   const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setisRefreshing] = useState(false);
   const [tweets, setTweets] = useState<ITweet[]>();
+  const {opacity: listOpacity, animatedOpacityStyle} = useAnimatedOpacity();
 
   const fetchTweets = async () => {
     try {
-      setIsLoading(true);
       if (userName) {
         const response = await TweetsAPI.getTweets({userName});
         setTweets(response);
       }
     } catch (error) {
       console.log(error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
+  const initialFetchTweets = async () => {
+    setIsLoading(true);
+    await fetchTweets();
+    setIsLoading(false);
+  };
+
+  const refreshTweets = async () => {
+    setisRefreshing(true);
+    await fetchTweets();
+    setisRefreshing(false);
+  };
+
   useEffect(() => {
-    fetchTweets();
+    initialFetchTweets();
   }, []);
+
+  useEffect(() => {
+    if (!isLoading) {
+      listOpacity.value = withTiming(1, {duration: animationDuration});
+    } else {
+      listOpacity.value = 0;
+    }
+  }, [listOpacity, isLoading]);
 
   const renderTweet: ListRenderItem<ITweet> = ({item}) => {
     const navigateToTweet = () => {
@@ -63,8 +87,9 @@ const HomeScreen: FC<Props> = ({navigation}) => {
 
   const ListHeaderComponent: FC = useCallback(() => {
     return (
-      <TextWrapper
-        style={styles.listHeader}>{`${userName}'s tweets:`}</TextWrapper>
+      <TextWrapper style={styles.listHeader}>
+        {`${userName}'s tweets:`}
+      </TextWrapper>
     );
   }, [userName]);
 
@@ -73,16 +98,18 @@ const HomeScreen: FC<Props> = ({navigation}) => {
       {isLoading ? (
         <Loader />
       ) : (
-        <FlatList
-          data={tweets}
-          renderItem={renderTweet}
-          onRefresh={fetchTweets}
-          refreshing={isLoading}
-          ListHeaderComponent={ListHeaderComponent}
-          ItemSeparatorComponent={ItemSeparatorComponent}
-          ListEmptyComponent={ListEmptyComponent}
-          keyExtractor={keyExtractor}
-        />
+        <Animated.View style={animatedOpacityStyle}>
+          <FlatList
+            data={tweets}
+            renderItem={renderTweet}
+            onRefresh={refreshTweets}
+            refreshing={isRefreshing}
+            ListHeaderComponent={ListHeaderComponent}
+            ItemSeparatorComponent={ItemSeparatorComponent}
+            ListEmptyComponent={ListEmptyComponent}
+            keyExtractor={keyExtractor}
+          />
+        </Animated.View>
       )}
     </SafeAreaView>
   );

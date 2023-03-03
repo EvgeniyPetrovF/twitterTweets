@@ -4,9 +4,10 @@ import {useMMKVString} from 'react-native-mmkv';
 import TextWrapper from '../../../../components/TextWrapper';
 import {styles} from './styles';
 import CustomButton from '../../../../components/CustomButton';
+import {StorageKeys} from '../../../../models/storage';
 
 const SettingsScreen: FC = () => {
-  const [username, setUsername] = useMMKVString('nickname');
+  const [username, setUsername] = useMMKVString(StorageKeys.userName);
 
   const handleLogout = () => {
     setUsername('');
@@ -14,7 +15,7 @@ const SettingsScreen: FC = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <TextWrapper style={styles.username}>{username}</TextWrapper>
+      <TextWrapper style={styles.username}>@{username}</TextWrapper>
       <CustomButton label={'Logout'} onPress={handleLogout} />
     </SafeAreaView>
   );
