@@ -32,6 +32,7 @@ const animationDuration = 300;
 const HomeScreen: FC<Props> = ({navigation}) => {
   const [userName] = useMMKVString(StorageKeys.userName);
   const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setisRefreshing] = useState(false);
   const [tweets, setTweets] = useState<ITweet[]>();
   const {opacity: listOpacity, animatedOpacityStyle} = useAnimatedOpacity();
 
@@ -50,6 +51,12 @@ const HomeScreen: FC<Props> = ({navigation}) => {
     setIsLoading(true);
     await fetchTweets();
     setIsLoading(false);
+  };
+
+  const refreshTweets = async () => {
+    setisRefreshing(true);
+    await fetchTweets();
+    setisRefreshing(false);
   };
 
   useEffect(() => {
@@ -95,8 +102,8 @@ const HomeScreen: FC<Props> = ({navigation}) => {
           <FlatList
             data={tweets}
             renderItem={renderTweet}
-            onRefresh={fetchTweets}
-            refreshing={isLoading}
+            onRefresh={refreshTweets}
+            refreshing={isRefreshing}
             ListHeaderComponent={ListHeaderComponent}
             ItemSeparatorComponent={ItemSeparatorComponent}
             ListEmptyComponent={ListEmptyComponent}

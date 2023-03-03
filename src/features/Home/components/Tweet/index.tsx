@@ -17,7 +17,7 @@ const Tweet: FC<ITweet> = ({created_at, text, authorNickname}) => {
     <View>
       <View style={styles.header}>
         <TextWrapper style={styles.nickname}>@{authorNickname}</TextWrapper>
-        <TextWrapper>{Moment(created_at).format('d MMM YYYY')}</TextWrapper>
+        <TextWrapper>{Moment(created_at).format('D MMM YYYY')}</TextWrapper>
       </View>
       <TextWrapper>{text}</TextWrapper>
     </View>
