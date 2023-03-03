@@ -6,11 +6,9 @@ import {
   TextInputProps,
   View,
 } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated, {useAnimatedStyle, withTiming} from 'react-native-reanimated';
+import useAnimatedColor from '../../common/hooks/useAnimatedColor';
+import useAnimatedOpacity from '../../common/hooks/useAnimatedOpacity';
 import {colors} from '../../constants';
 import TextWrapper from '../TextWrapper';
 import {styles} from './styles';
@@ -30,24 +28,14 @@ const TextInputWrapper = ({
   onBlur,
   ...props
 }: TextInputWrapperProps) => {
-  const animatedColor = useSharedValue(colors.black);
-  const errorOpacity = useSharedValue(0);
+  const {animatedColor, animatedColorStyle: animatedTitleStyle} =
+    useAnimatedColor(colors.black);
+  const {opacity: errorOpacity, animatedOpacityStyle: animatedErrorStyle} =
+    useAnimatedOpacity();
 
   const animatedBorderStyle = useAnimatedStyle(() => {
     return {
       borderColor: animatedColor.value,
-    };
-  });
-
-  const animatedTitleStyle = useAnimatedStyle(() => {
-    return {
-      color: animatedColor.value,
-    };
-  });
-
-  const animatedErrorStyle = useAnimatedStyle(() => {
-    return {
-      opacity: errorOpacity.value,
     };
   });
 

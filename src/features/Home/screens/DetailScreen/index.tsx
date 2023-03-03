@@ -9,6 +9,7 @@ type Props = NativeStackScreenProps<HomeStackParamList, 'Details'>;
 
 const DetailScreen: FC<Props> = ({route}) => {
   const {item, userName} = route.params;
+
   return (
     <SafeAreaView style={styles.container}>
       <Tweet authorNickname={userName} {...item} />
